@@ -40,6 +40,12 @@ jobs:
           git reset --hard origin/main
         fi
 
+        # Create virtualenv if it doesn't exist
+        if [ ! -d env ]; then
+          echo "📦 creating virtual environment"
+          python3 -m venv env
+        fi
+
         source env/bin/activate
 
         echo "📥 installing requirements"
