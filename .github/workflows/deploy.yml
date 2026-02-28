@@ -24,13 +24,9 @@ jobs:
       env:
         USER: ${{ secrets.EC2_USER }}
         HOST: ${{ secrets.EC2_HOST }}
-        APP_DIR: ${{ secrets.EC2_APP_DIR }}
       run: |
         ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 $USER@$HOST "bash -s" << 'REMOTE_SCRIPT'
         set -e
-        
-        # Navigate to app directory
-        cd "$APP_DIR"
         
         # Pull latest code from main branch
         echo "🔄 Pulling latest code from GitHub..."
@@ -49,7 +45,7 @@ jobs:
         echo "🗄️  Running database migrations..."
         python manage.py migrate --noinput
         
-        # Collect static files (if needed)
+        # Collect static files
         echo "📁 Collecting static files..."
         python manage.py collectstatic --noinput || true
         
