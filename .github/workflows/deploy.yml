@@ -1,0 +1,69 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+
+    - name: Deploy to EC2
+      env:
+        USER: ${{ secrets.EC2_USER }}
+        HOST: ${{ secrets.EC2_HOST }}
+        APP_DIR: ${{ secrets.EC2_APP_DIR }}
+      run: |
+        ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 $USER@$HOST "bash -s" << 'REMOTE_SCRIPT'
+        set -e
+        
+        # Navigate to app directory
+        cd "$APP_DIR"
+        
+        # Pull latest code from main branch
+        echo "🔄 Pulling latest code from GitHub..."
+        git fetch origin main
+        git reset --hard origin/main
+        
+        # Activate virtual environment
+        echo "📦 Activating virtual environment..."
+        source venv/bin/activate
+        
+        # Install/update dependencies
+        echo "📥 Installing dependencies..."
+        pip install -r requirements.txt --quiet
+        
+        # Run database migrations
+        echo "🗄️  Running database migrations..."
+        python manage.py migrate --noinput
+        
+        # Collect static files (if needed)
+        echo "📁 Collecting static files..."
+        python manage.py collectstatic --noinput || true
+        
+        # Restart the application service
+        echo "🔄 Restarting application service..."
+        sudo systemctl restart gunicorn || sudo systemctl restart mydjango || echo "Manual restart may be needed"
+        
+        echo "✅ Deployment completed successfully!"
+        REMOTE_SCRIPT
+
+    - name: Deployment Status
+      if: success()
+      run: echo "✅ Successfully deployed to EC2"
+
+    - name: Deployment Failed
+      if: failure()
+      run: echo "❌ Deployment failed - check logs above"
