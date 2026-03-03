@@ -14,3 +14,7 @@ def pricing_page(request):
 def home_page(request):
     """Render the home page"""
     return render(request, 'home.html')
+
+def services_page(request):
+    """Render the services page"""
+    return render(request, 'services.html')
