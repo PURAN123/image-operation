@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}MyStore{% endblock %}</title>
+    <title>{% block title %}ImageOps - Online Image Tools{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -28,12 +28,12 @@
                 d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
           </div>
-          <span class="font-display font-bold text-xl text-gray-900">MyStore</span>
+          <span class="font-display font-bold text-xl text-gray-900">ImageOps</span>
         </a>
 
         <!-- Desktop Nav Links -->
         <div class="hidden md:flex items-center gap-1">
-          <a href="/products/"
+          <!-- <a href="/products/"
              class="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition">
             Products
           </a>
@@ -44,7 +44,7 @@
           <a href="/services/"
              class="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition">
             Services
-          </a>
+          </a> -->
           <a href="{% url 'image_converter:index' %}"
              class="ml-3 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@
       <!-- Mobile Menu -->
       <div class="hidden md:hidden border-t border-gray-100 bg-white" id="mobile-menu">
         <div class="px-4 py-3 space-y-1">
-          <a href="/products/"
+          <!-- <a href="/products/"
              class="block px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition">
             Products
           </a>
@@ -93,10 +93,14 @@
           <a href="/services/"
              class="block px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 transition">
             Services
-          </a>
+          </a> -->
           <a href="{% url 'image_converter:index' %}"
              class="block px-3 py-2 rounded-lg text-sm font-semibold text-indigo-600 hover:bg-indigo-50 transition">
             🖼 Image Converter
+          </a>
+          <a href="{% url 'image_converter:edit' %}"
+             class="block px-3 py-2 rounded-lg text-sm font-semibold text-indigo-600 hover:bg-indigo-50 transition">
+            🖼 Image Editor
           </a>
           <a href="{% url 'pdf_converter:index' %}"
              class="block px-3 py-2 rounded-lg text-sm font-semibold text-red-600 hover:bg-red-50 transition">
@@ -115,7 +119,7 @@
     <footer class="bg-gray-900 text-white mt-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center">
-          <p class="text-gray-400 text-sm">&copy; 2026 MyStore. All rights reserved.</p>
+          <p class="text-gray-400 text-sm">&copy; 2026 ImageOps. All rights reserved.</p>
         </div>
       </div>
     </footer>
